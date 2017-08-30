@@ -2,8 +2,9 @@
 
 namespace Emanci\MysqlDiff;
 
-use Emanci\MysqlDiff\Commands\DiffFixCommand;
-use Emanci\MysqlDiff\Commands\DiffShowCommand;
+use Emanci\MysqlDiff\Commands\DifferCommand;
+use Emanci\MysqlDiff\Commands\FixerCommand;
+use Emanci\MysqlDiff\Commands\HelpCommand;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +16,7 @@ class Application
     /**
      * @var string
      */
-    const APP_NAME = 'MysqlDiff';
+    const APP_NAME = 'Mysql-Diff-Fixer';
 
     /**
      * @var string
@@ -35,8 +36,8 @@ class Application
      * @var array
      */
     protected $commands = [
-        DiffFixCommand::class,
-        DiffShowCommand::class,
+        FixerCommand::class,
+        DifferCommand::class,
     ];
 
     /**
@@ -81,6 +82,8 @@ class Application
      */
     protected function registerCommands()
     {
+        $this->consoleApp->add(new HelpCommand());
+
         array_walk($this->commands, function ($command) {
             $this->consoleApp->add(new $command($this->config->all()));
         });

@@ -2,7 +2,7 @@
 
 namespace Emanci\MysqlDiff\Commands;
 
-use Emanci\MysqlDiff\MysqlDiff;
+use Emanci\MysqlDiff\Core\MysqlDiff;
 use Symfony\Component\Console\Command\Command;
 
 /**

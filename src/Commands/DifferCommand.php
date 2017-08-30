@@ -8,14 +8,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @link https://symfony.com/doc/current/console.html
  */
-class DiffShowCommand extends BaseCommand
+class DifferCommand extends BaseCommand
 {
     /**
      * Configures the current command.
      */
     protected function configure()
     {
-        $this->setName('diff:show')
+        $this->setName('mdf:diff')
              ->setDescription('Show the difference information.')
              ->setHelp('This command help you to view the difference information.');
     }

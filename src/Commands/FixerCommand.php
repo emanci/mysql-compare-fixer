@@ -10,14 +10,14 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * @link https://symfony.com/doc/current/console.html
  */
-class DiffFixCommand extends BaseCommand
+class FixerCommand extends BaseCommand
 {
     /**
      * Configures the current command.
      */
     protected function configure()
     {
-        $this->setName('diff:fix')
+        $this->setName('mdf:fix')
              ->setDescription('Fix the different.')
              ->setHelp('This command help you to created tables or fields.');
     }
