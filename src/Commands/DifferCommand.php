@@ -1,6 +1,6 @@
 <?php
 
-namespace Emanci\MysqlDiff\Commands;
+namespace Emanci\MysqlDiffFixer\Commands;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

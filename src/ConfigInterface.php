@@ -1,6 +1,6 @@
 <?php
 
-namespace Emanci\MysqlDiff;
+namespace Emanci\MysqlDiffFixer;
 
 interface ConfigInterface
 {

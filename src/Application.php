@@ -1,10 +1,10 @@
 <?php
 
-namespace Emanci\MysqlDiff;
+namespace Emanci\MysqlDiffFixer;
 
-use Emanci\MysqlDiff\Commands\DifferCommand;
-use Emanci\MysqlDiff\Commands\FixerCommand;
-use Emanci\MysqlDiff\Commands\HelpCommand;
+use Emanci\MysqlDiffFixer\Commands\DifferCommand;
+use Emanci\MysqlDiffFixer\Commands\FixerCommand;
+use Emanci\MysqlDiffFixer\Commands\HelpCommand;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Emanci\MysqlDiff\Core;
+namespace Emanci\MysqlDiffFixer\Core;
 
 class MysqlDiff
 {
