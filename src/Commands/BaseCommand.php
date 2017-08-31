@@ -1,8 +1,8 @@
 <?php
 
-namespace Emanci\MysqlDiffFixer\Commands;
+namespace Emanci\MysqlCompareFixer\Commands;
 
-use Emanci\MysqlDiffFixer\Core\MysqlDiff;
+use Emanci\MysqlCompareFixer\Core\MysqlDiff;
 use Symfony\Component\Console\Command\Command;
 
 /**

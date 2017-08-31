@@ -1,6 +1,6 @@
 <?php
 
-namespace Emanci\MysqlDiffFixer\Model;
+namespace Emanci\MysqlCompareFixer\Model;
 
 class Trigger
 {

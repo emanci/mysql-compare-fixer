@@ -1,6 +1,6 @@
 <?php
 
-namespace Emanci\MysqlDiffFixer\Commands;
+namespace Emanci\MysqlCompareFixer\Commands;
 
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;

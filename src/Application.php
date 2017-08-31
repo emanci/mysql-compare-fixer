@@ -1,10 +1,10 @@
 <?php
 
-namespace Emanci\MysqlDiffFixer;
+namespace Emanci\MysqlCompareFixer;
 
-use Emanci\MysqlDiffFixer\Commands\DifferCommand;
-use Emanci\MysqlDiffFixer\Commands\FixerCommand;
-use Emanci\MysqlDiffFixer\Commands\HelpCommand;
+use Emanci\MysqlCompareFixer\Commands\DifferCommand;
+use Emanci\MysqlCompareFixer\Commands\FixerCommand;
+use Emanci\MysqlCompareFixer\Commands\HelpCommand;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,7 +16,7 @@ class Application
     /**
      * @var string
      */
-    const APP_NAME = 'Mysql-Diff-Fixer';
+    const APP_NAME = 'MysqlCompareFixer';
 
     /**
      * @var string

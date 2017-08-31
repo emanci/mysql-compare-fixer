@@ -1,6 +1,6 @@
 <?php
 
-namespace Emanci\MysqlDiffFixer\Commands;
+namespace Emanci\MysqlCompareFixer\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,10 +23,10 @@ class HelpCommand extends Command
     {
         $template = <<<'EOF'
 
-Compare Two Databases and Fix Differences
+Compare two databases and fix differences
 
 Usage:
-  php mysql-diff-fixer <options>
+  php mysql-compare-fixer <options>
 
 Options:
 
@@ -34,8 +34,8 @@ Available commands:
   help      Displays help for a command.
   list      Lists commands
 mdf
-  mdf:diff  Show the difference information.
-  mdf:fix   Fix the different.
+  mcf:diff  Show the difference information.
+  mcf:fix   Fix the different.
 EOF;
 
         return $template;
