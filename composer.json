@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Emanci\\MysqlDiffFixer\\": "src/"
+            "Emanci\\MysqlCompareFixer\\": "src/"
         }
     },
     "autoload-dev": {
