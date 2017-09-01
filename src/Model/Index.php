@@ -46,9 +46,14 @@ class Index
     {
         $definitionIndexType = $this->getDefinitionIndexType();
         $indexColumnsString = implode(',', $this->getDefinitionIndexColumns());
-        $indexOptions = $this->options ? ' '.$this->options : '';
+        $indexOptions = $this->getDefinitionIndexOptions();
 
-        return sprintf('%sKEY `%s` (%s)%s', $definitionIndexType, $this->name, $indexColumnsString, $indexOptions);
+        return sprintf('%sKEY `%s` (%s)%s',
+            $definitionIndexType,
+            $this->name,
+            $indexColumnsString,
+            $indexOptions
+        );
     }
 
     /**
@@ -89,5 +94,13 @@ class Index
         }
 
         return $indexColumns;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDefinitionIndexOptions()
+    {
+        return $this->options ? ' '.$this->options : '';
     }
 }
