@@ -7,7 +7,7 @@ use Emanci\MysqlCompareFixer\Exceptions\ColumnException;
 trait ColumnTrait
 {
     /**
-     * @var \Emanci\MysqlCompareFixer\Model\Column[]
+     * @var Column[]
      */
     protected $columns = [];
 
@@ -36,7 +36,7 @@ trait ColumnTrait
     }
 
     /**
-     * @return \Emanci\MysqlCompareFixer\Model\Column[]
+     * @return Column[]
      */
     public function getColumns()
     {

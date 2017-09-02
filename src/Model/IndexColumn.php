@@ -2,6 +2,9 @@
 
 namespace Emanci\MysqlCompareFixer\Model;
 
+/**
+ * @link https://dev.mysql.com/doc/refman/5.7/en/column-indexes.html
+ */
 class IndexColumn
 {
     /**
@@ -12,16 +15,16 @@ class IndexColumn
     /**
      * @var int
      */
-    protected $indexFirstCharacters;
+    protected $firstNCharacters;
 
     /**
      * @param Column $column
-     * @param int    $indexFirstCharacters
+     * @param int    $firstNCharacters
      */
-    public function __construct(Column $column, $indexFirstCharacters = null)
+    public function __construct(Column $column, $firstNCharacters = null)
     {
         $this->column = $column;
-        $this->indexFirstCharacters = $indexFirstCharacters;
+        $this->firstNCharacters = $firstNCharacters;
     }
 
     /**
@@ -35,8 +38,22 @@ class IndexColumn
     /**
      * @return int
      */
-    public function getIndexFirstCharacters()
+    public function getFirstNCharacters()
     {
-        return $this->indexFirstCharacters;
+        return $this->firstNCharacters;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIndexColumnScript()
+    {
+        $firstNCharactersScript = '';
+
+        if ($firstNCharacters = $this->getFirstNCharacters()) {
+            $firstNCharactersScript = sprintf('(%s)', $firstNCharacters);
+        }
+
+        return sprintf('`%s`%s', $this->getColumn()->getName(), $firstNCharactersScript);
     }
 }

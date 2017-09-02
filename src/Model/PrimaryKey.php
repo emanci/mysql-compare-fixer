@@ -21,7 +21,7 @@ class PrimaryKey
     /**
      * @return string
      */
-    public function getDefinitionScript()
+    public function getPrimaryKeyScript()
     {
         $primaryKeysString = implode('`, `', $this->getPrimaryKeys());
 

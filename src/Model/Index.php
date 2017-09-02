@@ -42,14 +42,14 @@ class Index
     /**
      * @return string
      */
-    public function getDefinitionScript()
+    public function getIndexScript()
     {
-        $definitionIndexType = $this->getDefinitionIndexType();
+        $indexType = $this->getDefinitionIndexType();
         $indexColumnsString = implode(',', $this->getDefinitionIndexColumns());
         $indexOptions = $this->getDefinitionIndexOptions();
 
         return sprintf('%sKEY `%s` (%s)%s',
-            $definitionIndexType,
+            $indexType,
             $this->name,
             $indexColumnsString,
             $indexOptions
@@ -83,17 +83,9 @@ class Index
      */
     protected function getDefinitionIndexColumns()
     {
-        $indexColumns = [];
-
-        foreach ($this->indexColumns as $column) {
-            $firstCharacters = '';
-            if ($indexColumn->getIndexFirstCharacters()) {
-                $firstCharacters = sprintf('(%s)', $indexColumn->getIndexFirstCharacters());
-            }
-            $indexColumns[] = sprintf('`%s`%s', $indexColumn->getColumn()->getName(), $firstCharacters);
-        }
-
-        return $indexColumns;
+        return array_map(function ($indexColumn) {
+            return $indexColumn->getIndexColumnScript();
+        }, $this->indexColumns);
     }
 
     /**

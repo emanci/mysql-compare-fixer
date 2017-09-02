@@ -95,7 +95,7 @@ class ForeignKey
     /**
      * @return string
      */
-    public function getDefinitionScript()
+    public function getForeignKeyScript()
     {
         $foreignKeyOptionsString = implode(' ', $this->getForeignKeyOptions());
 
