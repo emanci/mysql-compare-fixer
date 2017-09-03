@@ -1,8 +1,8 @@
 <?php
 
-namespace Emanci\MysqlCompareFixer\Model;
+namespace Emanci\MysqlDiff\Model;
 
-use Emanci\MysqlCompareFixer\Exceptions\TableException;
+use Emanci\MysqlDiff\Exceptions\TableException;
 
 class Schema
 {

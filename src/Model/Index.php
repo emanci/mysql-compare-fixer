@@ -1,6 +1,6 @@
 <?php
 
-namespace Emanci\MysqlCompareFixer\Model;
+namespace Emanci\MysqlDiff\Model;
 
 class Index
 {

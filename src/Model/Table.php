@@ -1,25 +1,15 @@
 <?php
 
-namespace Emanci\MysqlCompareFixer\Model;
+namespace Emanci\MysqlDiff\Model;
 
-class Table
+class Table extends AbstractAsset
 {
     use ColumnTrait;
-
-    /**
-     * @var string
-     */
-    protected $name;
 
     /**
      * @var PrimaryKey
      */
     protected $primaryKey;
-
-    /**
-     * @var Column[]
-     */
-    protected $columns;
 
     /**
      * @var Index[]
@@ -63,15 +53,7 @@ class Table
      */
     public function __construct($name)
     {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
+        $this->setName($name);
     }
 
     /**

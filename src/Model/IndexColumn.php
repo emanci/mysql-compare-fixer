@@ -1,6 +1,6 @@
 <?php
 
-namespace Emanci\MysqlCompareFixer\Model;
+namespace Emanci\MysqlDiff\Model;
 
 /**
  * @link https://dev.mysql.com/doc/refman/5.7/en/column-indexes.html
@@ -15,16 +15,16 @@ class IndexColumn
     /**
      * @var int
      */
-    protected $firstNCharacters;
+    protected $subPart;
 
     /**
      * @param Column $column
-     * @param int    $firstNCharacters
+     * @param int    $subPart
      */
-    public function __construct(Column $column, $firstNCharacters = null)
+    public function __construct(Column $column, $subPart = null)
     {
         $this->column = $column;
-        $this->firstNCharacters = $firstNCharacters;
+        $this->subPart = $subPart;
     }
 
     /**
@@ -38,9 +38,9 @@ class IndexColumn
     /**
      * @return int
      */
-    public function getFirstNCharacters()
+    public function getSubPart()
     {
-        return $this->firstNCharacters;
+        return $this->subPart;
     }
 
     /**
@@ -48,12 +48,12 @@ class IndexColumn
      */
     public function getIndexColumnScript()
     {
-        $firstNCharactersScript = '';
+        $subPartScript = '';
 
-        if ($firstNCharacters = $this->getFirstNCharacters()) {
-            $firstNCharactersScript = sprintf('(%s)', $firstNCharacters);
+        if ($subPart = $this->getSubPart()) {
+            $subPartScript = sprintf('(%s)', $subPart);
         }
 
-        return sprintf('`%s`%s', $this->getColumn()->getName(), $firstNCharactersScript);
+        return sprintf('`%s`%s', $this->getColumn()->getName(), $subPartScript);
     }
 }

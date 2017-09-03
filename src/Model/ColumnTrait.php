@@ -1,8 +1,8 @@
 <?php
 
-namespace Emanci\MysqlCompareFixer\Model;
+namespace Emanci\MysqlDiff\Model;
 
-use Emanci\MysqlCompareFixer\Exceptions\ColumnException;
+use Emanci\MysqlDiff\Exceptions\ColumnException;
 
 trait ColumnTrait
 {
@@ -16,13 +16,13 @@ trait ColumnTrait
      */
     public function addColumn(Column $column)
     {
-        $columnField = $column->getField();
+        $columnName = $column->getName();
 
-        if ($this->hasColumn($columnField)) {
-            throw new ColumnException("Column already exists {$columnField}");
+        if ($this->hasColumn($columnName)) {
+            throw new ColumnException("Column already exists {$columnName}");
         }
 
-        $this->columns[$columnField] = $column;
+        $this->columns[$columnName] = $column;
     }
 
     /**
@@ -44,12 +44,12 @@ trait ColumnTrait
     }
 
     /**
-     * @param string $columnField
+     * @param string $columnName
      *
      * @return bool
      */
-    public function hasColumn($columnField)
+    public function hasColumn($columnName)
     {
-        return isset($this->columns[$columnField]);
+        return isset($this->columns[$columnName]);
     }
 }
