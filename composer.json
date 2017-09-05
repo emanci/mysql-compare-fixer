@@ -1,7 +1,7 @@
 {
-    "name": "emanci/mysqldiff",
+    "name": "emanci/mysql-diff",
     "description": "",
-    "keywords": ["mysqldiff"],
+    "keywords": ["mysql-diff"],
     "license": "MIT",
     "minimum-stability": "dev",
     "authors": [{
@@ -18,8 +18,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Emanci\\MysqlCompareFixer\\": "src/"
-        }
+            "Emanci\\MysqlDiff\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
