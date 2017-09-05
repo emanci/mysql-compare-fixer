@@ -1,7 +1,7 @@
 {
     "name": "emanci/mysql-diff",
     "description": "",
-    "keywords": ["mysql-diff"],
+    "keywords": ["mysql-diff", "mysql-compare", "diff-fixer"],
     "license": "MIT",
     "minimum-stability": "dev",
     "authors": [{
