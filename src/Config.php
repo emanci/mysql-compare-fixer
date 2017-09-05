@@ -1,8 +1,8 @@
 <?php
 
-namespace Emanci\MysqlCompareFixer;
+namespace Emanci\MysqlDiff;
 
-use Emanci\MysqlCompareFixer\Contracts\ConfigInterface;
+use Emanci\MysqlDiff\Contracts\ConfigInterface;
 
 class Config implements ConfigInterface
 {

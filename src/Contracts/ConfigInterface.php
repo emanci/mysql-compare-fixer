@@ -1,6 +1,6 @@
 <?php
 
-namespace Emanci\MysqlCompareFixer\Contracts;
+namespace Emanci\MysqlDiff\Contracts;
 
 interface ConfigInterface
 {
