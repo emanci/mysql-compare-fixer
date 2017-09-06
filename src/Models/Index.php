@@ -2,6 +2,8 @@
 
 namespace Emanci\MysqlDiff\Models;
 
+use Emanci\MysqlDiff\Exceptions\IndexColumnException;
+
 class Index extends AbstractAsset
 {
     /**
@@ -10,19 +12,9 @@ class Index extends AbstractAsset
     protected $unique;
 
     /**
-     * @var bool
+     * @var array
      */
-    protected $fullText;
-
-    /**
-     * @var bool
-     */
-    protected $spatial;
-
-    /**
-     * @var string
-     */
-    protected $indexType;
+    protected $flags;
 
     /**
      * @var IndexColumn[]
@@ -30,6 +22,8 @@ class Index extends AbstractAsset
     protected $indexColumns = [];
 
     /**
+     * The index option.
+     *
      * @var string
      */
     protected $options;
@@ -45,6 +39,88 @@ class Index extends AbstractAsset
     }
 
     /**
+     * @param bool $unique
+     *
+     * @return $this
+     */
+    public function setUnique($unique)
+    {
+        $this->unique = $unique;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUnique()
+    {
+        return $this->unique;
+    }
+
+    /**
+     * @param array $flags
+     *
+     * @return $this
+     */
+    public function setFlags($flags)
+    {
+        $this->flags = $flags;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFlags()
+    {
+        return $this->flags;
+    }
+
+    /**
+     * @param string $flag
+     *
+     * @return bool
+     */
+    public function hasFlag($flag)
+    {
+        return isset($this->flags[strtolower($flag)]);
+    }
+
+    /**
+     * @param string $options
+     *
+     * @return $this
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param IndexColumn[]
+     *
+     * @return $this
+     */
+    public function setIndexColumns($indexColumns)
+    {
+        $this->indexColumns = $indexColumns;
+
+        return $this;
+    }
+
+    /**
      * @return IndexColumn[]
      */
     public function getIndexColumns()
@@ -53,19 +129,27 @@ class Index extends AbstractAsset
     }
 
     /**
-     * @param IndexColumn[]
-     */
-    public function setIndexColumns($indexColumns)
-    {
-        $this->indexColumns = $indexColumns;
-    }
-
-    /**
      * @param IndexColumn $indexColumn
      */
     public function addIndexColumn(IndexColumn $indexColumn)
     {
-        $this->indexColumns[] = $indexColumn;
+        $indexColumnName = $indexColumn->getColumn()->getName();
+
+        if ($this->hasIndexColumn($indexColumnName)) {
+            throw new IndexColumnException("IndexColumn already exists {$indexColumnName}");
+        }
+
+        $this->indexColumns[$indexColumnName] = $indexColumn;
+    }
+
+    /**
+     * @param string $columnName
+     *
+     * @return bool
+     */
+    public function hasIndexColumn($indexColumnName)
+    {
+        return isset($this->indexColumns[$indexColumnName]);
     }
 
     /**
@@ -92,19 +176,39 @@ class Index extends AbstractAsset
     {
         $indexType = '';
 
-        if ($this->spatial) {
-            $indexType = 'SPATIAL';
-        } elseif ($this->unique) {
+        if ($this->isUnique()) {
             $indexType = 'UNIQUE';
-        } elseif ($this->fullText) {
+        } elseif ($this->isFulltext()) {
             $indexType = 'FULLTEXT';
+        } elseif ($this->isSpatial()) {
+            $indexType = 'SPATIAL';
         }
 
-        if (!empty($indexType)) {
-            $indexType .= ' ';
-        }
+        return $indexType ? $indexType.' ' : $indexType;
+    }
 
-        return $indexType;
+    /**
+     * @return bool
+     */
+    public function isUnique()
+    {
+        return $this->unique;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFulltext()
+    {
+        return $this->hasFlag('FULLTEXT');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSpatial()
+    {
+        return $this->hasFlag('SPATIAL');
     }
 
     /**
