@@ -7,7 +7,7 @@ use Emanci\MysqlDiff\Exceptions\TableException;
 /**
  * @link https://dev.mysql.com/doc/refman/5.7/en/information-schema.html
  */
-class Schema
+class Schema extends AbstractAsset
 {
     /**
      * @var Table[]
