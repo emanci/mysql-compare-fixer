@@ -2,6 +2,8 @@
 
 namespace Emanci\MysqlDiff\Models;
 
+use Emanci\MysqlDiff\Exceptions\IndexException;
+
 /**
  * @link https://dev.mysql.com/doc/refman/5.7/en/charset-table.html
  */
@@ -62,23 +64,6 @@ class Table extends AbstractAsset
     }
 
     /**
-     * @param array $attributes
-     *
-     * @return $this
-     */
-    public function map(array $attributes)
-    {
-        foreach ($attributes as $name => $value) {
-            $method = 'set'.$name;
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Index[]
      */
     public function getIndexes()
@@ -98,6 +83,21 @@ class Table extends AbstractAsset
         }
 
         $this->indexes[$indexName] = $index;
+    }
+
+    /**
+     * @param string     $columnName
+     * @param mixed|null $default
+     *
+     * @return Column
+     */
+    public function getIndexByName($indexName, $default = null)
+    {
+        if ($this->hasIndex($indexName)) {
+            return $this->indexes[$indexName];
+        }
+
+        return $default;
     }
 
     /**

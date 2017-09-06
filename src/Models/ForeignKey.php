@@ -54,23 +54,6 @@ class ForeignKey extends AbstractAsset
     }
 
     /**
-     * @param array $attributes
-     *
-     * @return $this
-     */
-    public function map(array $attributes)
-    {
-        foreach ($attributes as $name => $value) {
-            $method = 'set'.$name;
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @param string $columnName
      *
      * @return $this

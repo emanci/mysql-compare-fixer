@@ -32,10 +32,12 @@ class Index extends AbstractAsset
      * Index construct.
      *
      * @param string $name
+     * @param array  $attributes
      */
-    public function __construct($name)
+    public function __construct($name, array $attributes = [])
     {
         $this->setName($name);
+        $this->map($attributes);
     }
 
     /**

@@ -26,6 +26,20 @@ trait ColumnTrait
     }
 
     /**
+     * @param string $columnName
+     *
+     * @return Column
+     */
+    public function getColumnByName($columnName)
+    {
+        if (!$this->hasColumn($columnName)) {
+            throw new ColumnException("Column {$columnName} not found");
+        }
+
+        return $this->columns[$columnName];
+    }
+
+    /**
      * @param array $columns
      */
     public function setColumns($columns)

@@ -2,6 +2,9 @@
 
 namespace Emanci\MysqlDiff\Models;
 
+/**
+ * @link https://dev.mysql.com/doc/refman/5.7/en/show-columns.html
+ */
 class PrimaryKey
 {
     use ColumnTrait;
