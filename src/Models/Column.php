@@ -305,4 +305,69 @@ class Column extends AbstractAsset
     {
         return 'PRI' === $this->key;
     }
+
+    /**
+     * @return string
+     */
+    public function getTableColumnDefinitionScript()
+    {
+        $columnTypeClause = $this->getColumnTypeClause();
+        $columnOptionClause = $this->getColumnOptionDefinitionScript();
+
+        return sprintf('`%s` %s %s', $this->name, $columnTypeClause, $columnOptionClause);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getColumnOptionDefinitionScript()
+    {
+        $columnOptions = [];
+
+        if ($this->characterSet) {
+            $columnOptions[] = sprintf('CHARACTER SET %s', $this->characterSet);
+        }
+
+        if ($this->collation) {
+            $columnOptions[] = sprintf('COLLATE %s', $this->collation);
+        }
+
+        if (!$this->nullable) {
+            $columnOptions[] = 'NOT NULL';
+        } elseif ($this->type === 'timestamp') {
+            $columnOptions[] = 'NULL';
+        }
+
+        if ($this->autoIncrement) {
+            $columnOptions[] = 'AUTO_INCREMENT';
+        }
+
+        if ($this->default) {
+            $columnOptions[] = sprintf('DEFAULT %s', $this->default);
+        }
+
+        if ($this->comment) {
+            $columnOptions[] = sprintf('COMMENT \'%s\'', $this->comment);
+        }
+
+        return implode(' ', $columnOptions);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getColumnTypeClause()
+    {
+        $parts = [$this->type];
+
+        if ($this->length) {
+            $parts[] = sprintf('(%s)', $this->length);
+        }
+
+        if ($this->unsigned) {
+            $parts[] = sprintf('unsigned', $this->unsigned);
+        }
+
+        return implode(' ', $parts);
+    }
 }
