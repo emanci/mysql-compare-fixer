@@ -4,7 +4,11 @@ namespace Emanci\MysqlDiff\Commands;
 
 use Emanci\MysqlDiff\Core\Parser;
 use Emanci\MysqlDiff\Database\Mysql;
+use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @link https://symfony.com/doc/current/console.html
@@ -12,11 +16,14 @@ use Symfony\Component\Console\Command\Command;
 abstract class AbstractCommand extends Command
 {
     /**
-     * The Parser instance.
-     *
-     * @var Parser
+     * @var Mysql
      */
-    protected $parser;
+    protected $fromSchema;
+
+    /**
+     * @var Mysql
+     */
+    protected $toSchema;
 
     /**
      * MysqlDiffCommand construct.
@@ -26,9 +33,35 @@ abstract class AbstractCommand extends Command
     public function __construct(array $config)
     {
         parent::__construct();
-        $master = $this->getDbInstance($config['master']);
-        $slave = $this->getDbInstance($config['slave']);
-        $this->parser = new Parser($master);
+        $fromServer = $this->getDbInstance($config['from_server']);
+        $toServer = $this->getDbInstance($config['to_server']);
+        $parser = new Parser($fromServer);
+        $this->fromSchema = $parser->parseSchema();
+        $this->toSchema = $parser->setPlatform($toServer)->parseSchema();
+    }
+
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param string          $question
+     *
+     * @return bool
+     */
+    protected function ask(InputInterface $input, OutputInterface $output, $question = null)
+    {
+        $helper = $this->getHelper('question');
+        $question = $question ? $question : $this->getDefaultQuestions();
+        $question = new ConfirmationQuestion($question, false);
+
+        return $helper->ask($input, $output, $question);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    protected function getDefaultQuestions()
+    {
+        throw new InvalidArgumentException('No questions asked.');
     }
 
     /**

@@ -1,13 +1,13 @@
 <?php
 
 return [
-    'master' => [
+    'from_server' => [
         'host' => '127.0.0.1',
         'user' => 'root',
         'password' => 'root',
         'database' => 'test_master',
     ],
-    'slave' => [
+    'to_server' => [
         'host' => '127.0.0.1',
         'user' => 'root',
         'password' => 'root',
