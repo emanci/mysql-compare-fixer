@@ -132,7 +132,7 @@ class ForeignKey extends AbstractAsset
     /**
      * @return string
      */
-    public function getForeignKeyDefinitionScript()
+    public function getForeignKeyDefinition()
     {
         $foreignKeyOptionsString = implode(' ', $this->getForeignKeyOptions());
 

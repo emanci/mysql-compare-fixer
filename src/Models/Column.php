@@ -309,18 +309,18 @@ class Column extends AbstractAsset
     /**
      * @return string
      */
-    public function getTableColumnDefinitionScript()
+    public function getTableColumnDefinition()
     {
-        $columnTypeClause = $this->getColumnTypeClause();
-        $columnOptionClause = $this->getColumnOptionDefinitionScript();
+        $columnTypeDefinition = $this->getColumnTypeDefinition();
+        $columnOptionDefinition = $this->getColumnOptionDefinition();
 
-        return sprintf('`%s` %s %s', $this->name, $columnTypeClause, $columnOptionClause);
+        return sprintf('`%s` %s %s', $this->name, $columnTypeDefinition, $columnOptionDefinition);
     }
 
     /**
      * @return string
      */
-    protected function getColumnOptionDefinitionScript()
+    protected function getColumnOptionDefinition()
     {
         $columnOptions = [];
 
@@ -356,7 +356,7 @@ class Column extends AbstractAsset
     /**
      * @return string
      */
-    protected function getColumnTypeClause()
+    protected function getColumnTypeDefinition()
     {
         $parts = [$this->type];
 

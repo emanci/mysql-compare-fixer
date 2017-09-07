@@ -14,7 +14,7 @@ class Index extends AbstractAsset
     /**
      * @var array
      */
-    protected $flags;
+    protected $flags = [];
 
     /**
      * @var IndexColumn[]
@@ -157,7 +157,7 @@ class Index extends AbstractAsset
     /**
      * @return string
      */
-    public function getIndexDefinitionScript()
+    public function getTableIndexDefinition()
     {
         $indexType = $this->getDefinitionIndexType();
         $indexColumnsString = implode(',', $this->getDefinitionIndexColumns());
@@ -219,7 +219,7 @@ class Index extends AbstractAsset
     protected function getDefinitionIndexColumns()
     {
         return array_map(function ($indexColumn) {
-            return $indexColumn->getIndexColumnScript();
+            return $indexColumn->getIndexColumnDefinitionScript();
         }, $this->indexColumns);
     }
 

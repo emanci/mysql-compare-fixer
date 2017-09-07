@@ -6,6 +6,7 @@ use Emanci\MysqlDiff\Exceptions\IndexException;
 
 /**
  * @link https://dev.mysql.com/doc/refman/5.7/en/charset-table.html
+ * @link https://dev.mysql.com/doc/refman/5.6/en/alter-table.html
  */
 class Table extends AbstractAsset
 {
@@ -19,12 +20,12 @@ class Table extends AbstractAsset
     /**
      * @var Index[]
      */
-    protected $indexes;
+    protected $indexes = [];
 
     /**
      * @var ForeignKey[]
      */
-    protected $foreignKeys;
+    protected $foreignKeys = [];
 
     /**
      * @var string
@@ -260,5 +261,73 @@ class Table extends AbstractAsset
         $this->primaryKey = $primaryKey;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreateTableSql()
+    {
+        $tableDefinitions = [];
+
+        // column
+        foreach ($this->columns as $column) {
+            $tableDefinitions[] = $column->getTableColumnDefinition();
+        }
+
+        // primary key
+        $tableDefinitions[] = $this->primaryKey->getPrimaryKeyDefinition();
+
+        // index
+        foreach ($this->indexes as $index) {
+            $tableDefinitions[] = $index->getTableIndexDefinition();
+        }
+
+        // foreign key
+        foreach ($this->foreignKeys as $foreignKey) {
+            $tableDefinitions[] = $foreignKey->getForeignKeyDefinition();
+        }
+
+        $tableDefinition = implode(', ', $tableDefinitions);
+
+        // table option
+        $tableOptionDefinition = $this->getTableOptionDefinition();
+
+        return sprintf(
+            'CREATE TABLE IF NOT EXISTS `%s` (%s) %s;',
+            $this->name,
+            $tableDefinition,
+            $tableOptionDefinition
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTableOptionDefinition()
+    {
+        $tableOptions = [];
+
+        if ($this->engine) {
+            $tableOptions[] = sprintf('ENGINE=%s', $this->engine);
+        }
+
+        if ($this->autoIncrement) {
+            $tableOptions[] = sprintf('AUTO_INCREMENT=%s', $this->autoIncrement);
+        }
+
+        if ($this->collate) {
+            $tableOptions[] = sprintf('COLLATE=%s', $this->collate);
+        }
+
+        if ($this->comment) {
+            $tableOptions[] = sprintf('COMMENT=\'%s\'', $this->comment);
+        }
+
+        if ($this->rowFormat) {
+            $tableOptions[] = sprintf('ROW_FORMAT=%s', $this->rowFormat);
+        }
+
+        return implode(' ', $tableOptions);
     }
 }

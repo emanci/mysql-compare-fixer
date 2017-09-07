@@ -24,7 +24,7 @@ class PrimaryKey
     /**
      * @return string
      */
-    public function getPrimaryKeyDefinitionScript()
+    public function getPrimaryKeyDefinition()
     {
         $primaryKeysString = implode('`, `', $this->getPrimaryKeys());
 
@@ -36,8 +36,8 @@ class PrimaryKey
      */
     protected function getPrimaryKeys()
     {
-        return array_map(function ($primaryKeyColumn) {
-            return $primaryKeyColumn->getField();
+        return array_map(function ($column) {
+            return $column->getName();
         }, $this->columns);
     }
 }

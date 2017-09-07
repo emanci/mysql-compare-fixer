@@ -12,18 +12,68 @@ class Schema extends AbstractAsset
     /**
      * @var Table[]
      */
-    protected $tables;
+    protected $tables = [];
+
+    /**
+     * @var string
+     */
+    protected $characterSet;
+
+    /**
+     * @var string
+     */
+    protected $collate;
 
     /**
      * Schema construct.
      *
-     * @param array $tables
+     * @param string $name
+     * @param array  $attributes
      */
-    public function __construct(array $tables = [])
+    public function __construct($name, array $attributes = [])
     {
-        foreach ($tables as $table) {
-            $this->addTable($table);
-        }
+        $this->setName($name);
+        $this->map($attributes);
+    }
+
+    /**
+     * @param string $characterSet
+     *
+     * @return $this
+     */
+    public function setCharacterSet($characterSet)
+    {
+        $this->characterSet = $characterSet;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCharacterSet()
+    {
+        return $this->characterSet;
+    }
+
+    /**
+     * @param string $collate
+     *
+     * @return $this
+     */
+    public function setCollate($collate)
+    {
+        $this->collate = $collate;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCollate()
+    {
+        return $this->collate;
     }
 
     /**
