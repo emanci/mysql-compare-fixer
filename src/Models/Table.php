@@ -53,6 +53,11 @@ class Table extends AbstractAsset
     protected $comment;
 
     /**
+     * @var string
+     */
+    protected $definition;
+
+    /**
      * Table construct.
      *
      * @param string $name
@@ -239,6 +244,26 @@ class Table extends AbstractAsset
     public function setComment($comment)
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefinition()
+    {
+        return $this->definition;
+    }
+
+    /**
+     * @param string $definition
+     *
+     * @return $this
+     */
+    public function setDefinition($definition)
+    {
+        $this->definition = $definition;
 
         return $this;
     }

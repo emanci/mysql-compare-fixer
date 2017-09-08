@@ -19,9 +19,19 @@ class Column extends AbstractAsset
     protected $type;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $length;
+
+    /**
+     * @var int|null
+     */
+    protected $precision;
+
+    /**
+     * @var int|null
+     */
+    protected $scale;
 
     /**
      * @var bool
@@ -41,17 +51,7 @@ class Column extends AbstractAsset
     /**
      * @var string
      */
-    protected $key;
-
-    /**
-     * @var string
-     */
     protected $default;
-
-    /**
-     * @var string
-     */
-    protected $extra;
 
     /**
      * @var string
@@ -116,6 +116,46 @@ class Column extends AbstractAsset
     public function getLength()
     {
         return $this->length;
+    }
+
+    /**
+     * @param int $precision
+     *
+     * @return $this
+     */
+    public function setPrecision($precision)
+    {
+        $this->precision = $precision;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPrecision()
+    {
+        return $this->precision;
+    }
+
+    /**
+     * @param int $scale
+     *
+     * @return $this
+     */
+    public function setScale($scale)
+    {
+        $this->scale = $scale;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getScale()
+    {
+        return $this->scale;
     }
 
     /**
@@ -219,26 +259,6 @@ class Column extends AbstractAsset
     }
 
     /**
-     * @param string $key
-     *
-     * @return $this
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getKey()
-    {
-        return $this->key;
-    }
-
-    /**
      * @param string $default
      *
      * @return $this
@@ -256,26 +276,6 @@ class Column extends AbstractAsset
     public function getDefault()
     {
         return $this->default;
-    }
-
-    /**
-     * @param string $extra
-     *
-     * @return $this
-     */
-    public function setExtra($extra)
-    {
-        $this->extra = $extra;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExtra()
-    {
-        return $this->extra;
     }
 
     /**

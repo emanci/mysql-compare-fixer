@@ -79,7 +79,7 @@ class Schema extends AbstractAsset
     /**
      * @param Table $table
      */
-    protected function addTable(Table $table)
+    public function addTable(Table $table)
     {
         $tableName = $table->getName();
 
