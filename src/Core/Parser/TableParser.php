@@ -23,7 +23,7 @@ class TableParser extends AbstractParser
     {
         $pattern = '/^';
         $pattern .= 'CREATE( TEMPORARY)? TABLE( IF NOT EXISTS)? (?P<name>:name)';
-        $pattern .= ' \((.+)\)';
+        $pattern .= ' \((?P<definition>(.+))\)';
         $pattern .= '( ENGINE=(?P<engine>:engine))?';
         $pattern .= '( AUTO_INCREMENT=(?P<auto_increment>:auto_increment))?';
         $pattern .= '( DEFAULT CHARSET=(?P<charset>:charset))?';
