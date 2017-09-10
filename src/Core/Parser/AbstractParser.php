@@ -34,14 +34,15 @@ abstract class AbstractParser implements ParserInterface
      * Perform a regular expression match.
      *
      * @param string $regexPattern
-     * @param string $subject
+     * @param string $statement
      *
      * @return array
      */
-    protected function match($regexPattern, $subject)
+    protected function match($regexPattern, $statement)
     {
         $regexPattern = $this->prepareRegex($regexPattern);
-        $matchCounts = preg_match($regexPattern, $subject, $matches);
+        $statement = $this->filterStatement($statement);
+        $matchCounts = preg_match($regexPattern, $statement, $matches);
 
         return $matchCounts ? $matches : [];
     }
@@ -55,26 +56,24 @@ abstract class AbstractParser implements ParserInterface
      */
     protected function prepareRegex($regex)
     {
-        $filterRegex = $this->filterRegex($regex);
-
         return strtr($regex, $this->placeholders);
     }
 
     /**
-     * Filters the regex string.
+     * Filters the SQL statement string.
      *
      * @param string $regex
      *
      * @return string
      */
-    protected function filterRegex($regex)
+    protected function filterStatement($statement)
     {
-        $regex = trim($regex);
-        $regex = rtrim($regex, ';');
-        $regex = str_replace(["\n", "\r"], ' ', $regex);
-        $regex = preg_replace("~\s+~", ' ', $regex);
-        $regex = preg_replace(["~\/\*!\d{5}\s*(.*?)\s*\*\/~ui"], ['$1'], $regex);
+        $statement = trim($statement);
+        $statement = rtrim($statement, ';');
+        $statement = str_replace(["\n", "\r"], ' ', $statement);
+        $statement = preg_replace("~\s+~", ' ', $statement);
+        $statement = preg_replace(["~\/\*!\d{5}\s*(.*?)\s*\*\/~ui"], ['$1'], $statement);
 
-        return $regex;
+        return $statement;
     }
 }
