@@ -3,8 +3,10 @@
 namespace Emanci\MysqlDiff\Core\Builder;
 
 use Emanci\MysqlDiff\Core\Parser\ColumnParser;
+use Emanci\MysqlDiff\Core\Parser\PrimaryKeyParser;
 use Emanci\MysqlDiff\Core\Parser\SchemaParser;
 use Emanci\MysqlDiff\Core\Parser\TableParser;
+use Emanci\MysqlDiff\Models\Table;
 
 class BuildersFactory
 {
@@ -30,5 +32,15 @@ class BuildersFactory
     public static function createColumnBuilder()
     {
         return new ColumnBuilder(new ColumnParser());
+    }
+
+    /**
+     * @param Table $table
+     *
+     * @return PrimaryKeyBuilder
+     */
+    public static function createPrimaryKeyBuilder(Table $table)
+    {
+        return new PrimaryKeyBuilder(new PrimaryKeyParser(), $table);
     }
 }
