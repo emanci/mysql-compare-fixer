@@ -41,6 +41,6 @@ class BuildersFactory
      */
     public static function createPrimaryKeyBuilder(Table $table)
     {
-        return new PrimaryKeyBuilder(new PrimaryKeyParser(), $table);
+        return new PrimaryKeyBuilder($table, new PrimaryKeyParser());
     }
 }

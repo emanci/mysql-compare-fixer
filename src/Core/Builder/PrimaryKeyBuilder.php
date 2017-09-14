@@ -10,25 +10,25 @@ use Emanci\MysqlDiff\Models\Table;
 class PrimaryKeyBuilder implements BuilderInterface
 {
     /**
-     * @var PrimaryKeyParser
-     */
-    protected $primaryKeyParser;
-
-    /**
      * @var Table
      */
     protected $table;
 
     /**
+     * @var PrimaryKeyParser
+     */
+    protected $primaryKeyParser;
+
+    /**
      * PrimaryKeyBuilder construct.
      *
-     * @param PrimaryKeyParser $primaryKeyParser
      * @param Table            $table
+     * @param PrimaryKeyParser $primaryKeyParser
      */
-    public function __construct(PrimaryKeyParser $primaryKeyParser, Table $table)
+    public function __construct(Table $table, PrimaryKeyParser $primaryKeyParser)
     {
-        $this->primaryKeyParser = $primaryKeyParser;
         $this->table = $table;
+        $this->primaryKeyParser = $primaryKeyParser;
     }
 
     /**

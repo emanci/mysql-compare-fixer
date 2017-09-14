@@ -299,14 +299,6 @@ class Column extends AbstractAsset
     }
 
     /**
-     * @return bool
-     */
-    public function isPrimaryKey()
-    {
-        return 'PRI' === $this->key;
-    }
-
-    /**
      * @return string
      */
     public function getTableColumnDefinition()
