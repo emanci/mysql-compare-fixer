@@ -23,7 +23,7 @@ class ForeignKeyParser extends AbstractParser
     {
         $pattern = '/\s*';
         $pattern .= 'CONSTRAINT `(?P<index_name>:index_name)`\s+FOREIGN KEY\s+';
-        $pattern .= '\(`(?P<column_name>):column_name`\)\s+';
+        $pattern .= '\(`(?P<column_name>:column_name)`\)\s+';
         $pattern .= 'REFERENCES\s+`(?P<referenced_table>:referenced_table)`\s*';
         $pattern .= '\(`(?P<reference_column>:reference_column)`\)\s*';
         $pattern .= '(?P<onDelete>ON DELETE :on_delete)?\s*';
