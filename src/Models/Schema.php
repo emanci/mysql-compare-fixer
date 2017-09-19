@@ -77,6 +77,20 @@ class Schema extends AbstractAsset
     }
 
     /**
+     * @param array $tables
+     *
+     * @return $this
+     */
+    public function addTables(array $tables)
+    {
+        foreach ($tables as $table) {
+            $this->addTable($table);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param Table $table
      */
     public function addTable(Table $table)

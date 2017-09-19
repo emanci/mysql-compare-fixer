@@ -26,8 +26,8 @@ class ForeignKeyParser extends AbstractParser
         $pattern .= '\(`(?P<column_name>:column_name)`\)\s+';
         $pattern .= 'REFERENCES\s+`(?P<referenced_table>:referenced_table)`\s*';
         $pattern .= '\(`(?P<reference_column>:reference_column)`\)\s*';
-        $pattern .= '(?P<onDelete>ON DELETE :on_delete)?\s*';
-        $pattern .= '(?P<onUpdate>ON UPDATE :on_update)?\s*';
+        $pattern .= '(?P<on_delete>ON DELETE :on_delete)?\s*';
+        $pattern .= '(?P<on_update>ON UPDATE :on_update)?\s*';
         $pattern .= '(?:,|$)';
         $pattern .= '/ui';
 
