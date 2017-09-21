@@ -2,12 +2,11 @@
 
 namespace Emanci\MysqlDiff\Core\Builder;
 
-use Emanci\MysqlDiff\Contracts\BuilderInterface;
 use Emanci\MysqlDiff\Core\Parser\PrimaryKeyParser;
 use Emanci\MysqlDiff\Models\PrimaryKey;
 use Emanci\MysqlDiff\Models\Table;
 
-class PrimaryKeyBuilder implements BuilderInterface
+class PrimaryKeyBuilder
 {
     /**
      * @var Table
@@ -34,17 +33,27 @@ class PrimaryKeyBuilder implements BuilderInterface
     /**
      * @param string $statement
      *
-     * @return Schema
+     * @return \Emanci\MysqlDiff\Models\PrimaryKey
      */
-    public function create($statement)
+    public function buildPrimaryKey($statement)
     {
-        $result = $this->primaryKeyParser->parse($statement);
+        $primaryKeyStruct = $this->primaryKeyParser->parse($statement);
 
-        if (empty($result)) {
+        if (empty($primaryKeyStruct)) {
             return false;
         }
 
-        $primaryKeyNames = explode(',', str_replace('`', '', $result['primary_key']));
+        return $this->createPrimaryKeyDefinition($primaryKeyStruct[0]);
+    }
+
+    /**
+     * @param array $tablePrimaryKey
+     *
+     * @return \Emanci\MysqlDiff\Models\PrimaryKey
+     */
+    protected function createPrimaryKeyDefinition($tablePrimaryKey)
+    {
+        $primaryKeyNames = explode(',', str_replace('`', '', $tablePrimaryKey['primary_key']));
         $primaryKeyColumns = [];
 
         foreach ($primaryKeyNames as $primaryKeyName) {

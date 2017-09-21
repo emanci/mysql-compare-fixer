@@ -32,6 +32,7 @@ class ColumnParser extends AbstractParser
         'timestamp',
         'year\((?<year_length>\d)\)',
         'geometry',
+        'point',
         '(?:var|nvar)?char\((?<char_length>\d+)\)',
         '(?:var)?binary\((?<binary_length>\d+)\)',
         '(?:tiny|medium|long)?text',

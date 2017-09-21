@@ -2,12 +2,11 @@
 
 namespace Emanci\MysqlDiff\Core\Builder;
 
-use Emanci\MysqlDiff\Contracts\BuilderInterface;
 use Emanci\MysqlDiff\Core\Parser\SchemaParser;
 use Emanci\MysqlDiff\Models\Schema;
 use InvalidArgumentException;
 
-class SchemaBuilder implements BuilderInterface
+class SchemaBuilder
 {
     /**
      * @var SchemaParser
@@ -27,21 +26,31 @@ class SchemaBuilder implements BuilderInterface
     /**
      * @param string $statement
      *
-     * @return Schema
+     * @return \Emanci\MysqlDiff\Models\Schema
      */
-    public function create($statement)
+    public function buildSchema($statement)
     {
-        $result = $this->schemaParser->parse($statement);
+        $schemaStruct = $this->schemaParser->parse($statement);
 
-        if (empty($result)) {
+        if (empty($schemaStruct)) {
             throw new InvalidArgumentException('Failed to parse Schema');
         }
 
+        return $this->createSchemaDefinition($schemaStruct[0]);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return \Emanci\MysqlDiff\Models\Schema
+     */
+    protected function createSchemaDefinition($data)
+    {
         $attributes = [
-            'character_set' => array_get($result, 'character_set'),
-            'collate' => array_get($result, 'collate'),
+            'character_set' => array_get($data, 'character_set'),
+            'collate' => array_get($data, 'collate'),
         ];
 
-        return new Schema($result['name'], $attributes);
+        return new Schema($data['name'], $attributes);
     }
 }

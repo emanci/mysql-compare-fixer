@@ -6,14 +6,13 @@ class ParserFactory
 {
     /**
      * @param string $parserName
-     * @param string $statement
      *
      * @return mixed
      */
-    public static function make($parserName, $statement)
+    public static function make($parserName)
     {
         $parserClassName = __NAMESPACE__.'\\'.ucfirst($parserName).'Parser';
 
-        return new $parserClassName($statement);
+        return new $parserClassName();
     }
 }

@@ -2,11 +2,10 @@
 
 namespace Emanci\MysqlDiff\Core\Builder;
 
-use Emanci\MysqlDiff\Contracts\BuilderInterface;
 use Emanci\MysqlDiff\Core\Parser\ColumnParser;
 use Emanci\MysqlDiff\Models\Column;
 
-class ColumnBuilder implements BuilderInterface
+class ColumnBuilder
 {
     /**
      * @var TableParser
@@ -26,47 +25,47 @@ class ColumnBuilder implements BuilderInterface
     /**
      * @param string $statement
      *
-     * @return Schema
+     * @return \Emanci\MysqlDiff\Models\Column[]
      */
-    public function create($statement)
+    public function buildTableColumns($statement)
     {
-        $result = $this->columnParser->parse($statement);
+        $tableColumns = $this->columnParser->parse($statement);
 
-        if (empty($result)) {
-            return false;
-        }
+        $columns = array_map(function ($tableColumn) {
+            return $this->createColumnDefinition($tableColumn);
+        }, $tableColumns);
 
-        $options = $this->buildColumnDefinition($result);
-
-        return new Column($result['name'], $options);
+        return $columns;
     }
 
     /**
-     * @param array $columnRow
+     * @param array $tableColumn
      *
-     * @return array
+     * @return \Emanci\MysqlDiff\Models\Column
      */
-    protected function buildColumnDefinition($columnRow)
+    protected function createColumnDefinition($tableColumn)
     {
-        $type = strtok($columnRow['data_type'], '(), ');
+        $type = strtok($tableColumn['data_type'], '(), ');
         $length = strtok('(), ');
         $precision = null;
         $scale = null;
 
-        if (preg_match('([A-Za-z]+\(([0-9]+)\,([0-9]+)\))', $columnRow['data_type'], $match)) {
+        if (preg_match('([A-Za-z]+\(([0-9]+)\,([0-9]+)\))', $tableColumn['data_type'], $match)) {
             $precision = $match[1];
             $scale = $match[2];
             $length = null;
         }
 
-        $unsigned = boolval(strpos($columnRow['data_type'], 'unsigned') !== false);
-        $autoIncrement = array_get($columnRow, 'auto_increment');
-        $nullable = array_get($columnRow, 'nullable') == 'NOT NULL' ? true : false;
-        $default = array_get($columnRow, 'default');
-        $characterSet = array_get($columnRow, 'character_set');
-        $collation = array_get($columnRow, 'collate');
-        $comment = array_get($columnRow, 'comment');
+        $unsigned = boolval(strpos($tableColumn['data_type'], 'unsigned') !== false);
+        $autoIncrement = array_get($tableColumn, 'auto_increment');
+        $nullable = array_get($tableColumn, 'nullable') == 'NOT NULL' ? true : false;
+        $default = array_get($tableColumn, 'default');
+        $characterSet = array_get($tableColumn, 'character_set');
+        $collation = array_get($tableColumn, 'collate');
+        $comment = array_get($tableColumn, 'comment');
 
-        return compact('type', 'length', 'unsigned', 'autoIncrement', 'nullable', 'default', 'precision', 'scale', 'characterSet', 'collation', 'comment');
+        $options = compact('type', 'length', 'unsigned', 'autoIncrement', 'nullable', 'default', 'precision', 'scale', 'characterSet', 'collation', 'comment');
+
+        return new Column($tableColumn['name'], $options);
     }
 }

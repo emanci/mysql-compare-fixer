@@ -42,7 +42,6 @@ abstract class AbstractParser implements ParserInterface
     {
         $regexPattern = $this->prepareRegex($regexPattern);
         $statement = $this->filterStatement($statement);
-
         preg_match_all($regexPattern, $statement, $matches, PREG_SET_ORDER);
 
         return $matches;

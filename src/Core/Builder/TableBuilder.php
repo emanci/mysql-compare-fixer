@@ -2,12 +2,11 @@
 
 namespace Emanci\MysqlDiff\Core\Builder;
 
-use Emanci\MysqlDiff\Contracts\BuilderInterface;
 use Emanci\MysqlDiff\Core\Parser\TableParser;
 use Emanci\MysqlDiff\Models\Table;
 use InvalidArgumentException;
 
-class TableBuilder implements BuilderInterface
+class TableBuilder
 {
     /**
      * @var TableParser
@@ -27,27 +26,25 @@ class TableBuilder implements BuilderInterface
     /**
      * @param string $statement
      *
-     * @return Schema
+     * @return \Emanci\MysqlDiff\Models\Table
      */
-    public function create($statement)
+    public function buildTable($statement)
     {
-        $result = $this->tableParser->parse($statement);
+        $tableStruct = $this->tableParser->parse($statement);
 
-        if (empty($result)) {
+        if (empty($tableStruct)) {
             throw new InvalidArgumentException('Failed to parse Table');
         }
 
-        $tableRow = $this->formatTableRow($result);
-
-        return new Table($result['name'], $tableRow);
+        return $this->createTableDefinition($tableStruct[0]);
     }
 
     /**
      * @param array $data
      *
-     * @return array
+     * @return \Emanci\MysqlDiff\Models\Table
      */
-    protected function formatTableRow($data)
+    protected function createTableDefinition($data)
     {
         $engine = array_get($data, 'engine');
         $autoIncrement = array_get($data, 'auto_increment');
@@ -56,6 +53,8 @@ class TableBuilder implements BuilderInterface
         $comment = array_get($data, 'comment');
         $definition = array_get($data, 'definition');
 
-        return compact('engine', 'autoIncrement', 'collate', 'rowFormat', 'comment', 'definition');
+        $options = compact('engine', 'autoIncrement', 'collate', 'rowFormat', 'comment', 'definition');
+
+        return new Table($data['name'], $options);
     }
 }

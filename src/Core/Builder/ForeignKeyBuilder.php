@@ -2,11 +2,10 @@
 
 namespace Emanci\MysqlDiff\Core\Builder;
 
-use Emanci\MysqlDiff\Contracts\BuilderInterface;
 use Emanci\MysqlDiff\Core\Parser\ForeignKeyParser;
 use Emanci\MysqlDiff\Models\ForeignKey;
 
-class ForeignKeyBuilder implements BuilderInterface
+class ForeignKeyBuilder
 {
     /**
      * @var TableParser
@@ -26,27 +25,25 @@ class ForeignKeyBuilder implements BuilderInterface
     /**
      * @param string $statement
      *
-     * @return Schema
+     * @return \Emanci\MysqlDiff\Models\ForeignKey[]
      */
-    public function create($statement)
+    public function buildForeignKeys($statement)
     {
-        $tableForeignKey = $this->foreignKeyParser->parse($statement);
+        $tableForeignKeys = $this->foreignKeyParser->parse($statement);
 
-        if (empty($tableForeignKey)) {
-            return false;
-        }
+        $foreignKeys = array_map(function ($foreignKey) {
+            return $this->createForeignKeyDefinition($foreignKey);
+        }, $tableForeignKeys);
 
-        $options = $this->buildForeignKeyDefinition($tableForeignKey);
-
-        return new ForeignKey($tableForeignKey['index_name'], $options);
+        return $foreignKeys;
     }
 
     /**
      * @param array $data
      *
-     * @return array
+     * @return \Emanci\MysqlDiff\Models\ForeignKey
      */
-    protected function buildForeignKeyDefinition($data)
+    protected function createForeignKeyDefinition($data)
     {
         $columnName = array_get($data, 'column_name');
         $referencedTableName = array_get($data, 'referenced_table');
@@ -54,6 +51,8 @@ class ForeignKeyBuilder implements BuilderInterface
         $onDeleteClause = array_get($data, 'on_delete');
         $onUpdateClause = array_get($data, 'on_update');
 
-        return compact('columnName', 'referencedTableName', 'referencedColumnName', 'onDeleteClause', 'onUpdateClause');
+        $options = compact('columnName', 'referencedTableName', 'referencedColumnName', 'onDeleteClause', 'onUpdateClause');
+
+        return new ForeignKey($data['index_name'], $options);
     }
 }
